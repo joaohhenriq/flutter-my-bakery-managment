@@ -15,10 +15,10 @@ class LoginValidators {
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
     handleData: (password, sink){
-      if(password.length < 5){
-        sink.addError("Invalid password (less than 5 characters)!");
-      } else {
+      if(password.length > 4){
         sink.add(password);
+      } else {
+        sink.addError("Invalid password (less than 5 characters)!");
       }
     }
   );

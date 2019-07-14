@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/blocs/login_bloc.dart';
 import 'package:my_bakery_managment/widgets/input_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -7,6 +8,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  // como só usamos o loginBloc nesta tela, não precisa colocar em provider
+  final _loginBloc = LoginBloc();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,37 +53,48 @@ class _LoginPageState extends State<LoginPage> {
                         icon: Icons.person_outline,
                         hint: "User",
                         obscure: false,
+                        stream: _loginBloc.outEmail,
+                        onChanged: _loginBloc.changeEmail,
                       ),
                       InputField(
                         icon: Icons.lock_outline,
                         hint: "Password",
                         obscure: true,
+                        stream: _loginBloc.outPassword,
+                        onChanged: _loginBloc.changePassword,
                       ),
                       SizedBox(
                         height: 32.0,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
-                        child: SizedBox(
-                          height: 50.0,
-                          child: RaisedButton(
-                            color: Colors.white.withOpacity(0.5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 15.0),
-                                  child: Text(
-                                    "Sign in",
-                                    style: TextStyle(fontSize: 16.0),
-                                  ),
+                        child: StreamBuilder<bool>(
+                          stream: _loginBloc.outSubmitValid,
+                          builder: (context, snapshot) {
+                            return SizedBox(
+                              height: 50.0,
+                              child: RaisedButton(
+                                disabledColor: Colors.white.withOpacity(0.4),
+                                disabledTextColor: Colors.grey[700],
+                                color: Colors.white.withOpacity(0.5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 15.0),
+                                      child: Text(
+                                        "Sign in",
+                                        style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                    Icon(Icons.input)
+                                  ],
                                 ),
-                                Icon(Icons.input)
-                              ],
-                            ),
-                            onPressed: () {},
-                            textColor: Colors.white,
-                          ),
+                                onPressed: snapshot.hasData ? (){} : null,
+                                textColor: Colors.white,
+                              ),
+                            );
+                          }
                         ),
                       )
                     ],

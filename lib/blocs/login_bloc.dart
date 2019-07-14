@@ -10,6 +10,18 @@ class LoginBloc extends BlocBase with LoginValidators {
   Stream<String> get outEmail => _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword => _passwordController.stream.transform(validatePassword);
 
+  // stream para acionar o botão de login
+  // valida se os valores de email e password estão preenchidos
+  // poderia combinar mais valores, mas estamos usando somente 2
+  Stream<bool> get outSubmitValid => Observable.combineLatest2(
+      outEmail,
+      outPassword,
+      (a, b) => true
+  );
+
+  Function(String) get changeEmail => _emailController.sink.add;
+  Function(String) get changePassword => _passwordController.sink.add;
+
   @override
   void dispose() {
     _emailController.close();
