@@ -9,6 +9,7 @@
 .history
 .svn/
 
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -34,6 +35,7 @@
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
+**/android/app/google-services.json
 **/android/**/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
