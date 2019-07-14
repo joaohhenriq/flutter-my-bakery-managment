@@ -50,7 +50,8 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/
+   - assets/images/
+
   fonts:
    - family: DancingScript
      fonts:
