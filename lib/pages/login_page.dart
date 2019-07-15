@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Icon(Icons.input)
                                   ],
                                 ),
-                                onPressed: snapshot.hasData ? (){} : null,
+                                onPressed: snapshot.hasData ? _loginBloc.submit : null,
                                 textColor: Colors.white,
                               ),
                             );
