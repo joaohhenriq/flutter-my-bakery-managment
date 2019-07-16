@@ -60,17 +60,19 @@ class _LoginPageState extends State<LoginPage> {
             stream: _loginBloc.outState,
             initialData: LoginState.LOADING,
             builder: (context, snapshot) {
+              Widget widget;
               switch (snapshot.data) {
                 case LoginState.LOADING:
-                  return Center(
+                  widget =  Center(
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(Colors.white),
                     ),
                   );
+                  break;
                 case LoginState.FAIL:
                 case LoginState.SUCCESS:
                 case LoginState.IDLE:
-                  return Padding(
+                widget = Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   );
+                break;
               }
+
+              return widget;
             }),
       ),
     ));
