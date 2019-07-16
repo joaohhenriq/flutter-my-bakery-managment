@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/tabs/orders_tab.dart';
+import 'package:my_bakery_managment/tabs/products_tab.dart';
+import 'package:my_bakery_managment/tabs/users_tab.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,11 +26,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black87,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-            canvasColor: Colors.pinkAccent,
+            canvasColor: Colors.black87,
             primaryColor: Colors.white,
             textTheme: Theme.of(context)
                 .textTheme
@@ -48,24 +53,20 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (page){
-          setState(() {
-            _page = page;
-          });
-        },
-        children: <Widget>[
-          Container(
-            color: Colors.grey,
-          ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.blue,
-          )
-        ],
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (page) {
+            setState(() {
+              _page = page;
+            });
+          },
+          children: <Widget>[
+            UsersTab(),
+            OrdersTab(),
+            ProductsTab()
+          ],
+        ),
       ),
     );
   }
