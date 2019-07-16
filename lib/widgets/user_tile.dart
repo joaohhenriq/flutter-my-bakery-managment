@@ -4,31 +4,36 @@ class UserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        "title",
-        style: TextStyle(
-          color: Colors.white
-        ),
-      ),
-      subtitle: Text(
-        "subtitle",
-        style: TextStyle(
-          color: Colors.white
-        ),
-      ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          Text(
+            "title",
+            style: TextStyle(
+                color: Colors.white
+            ),
+          ),
           Text(
             "Orders: 0",
             style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            "subtitle",
+            style: TextStyle(
+                color: Colors.white
+            ),
           ),
           Text(
             "Total: 0",
             style: TextStyle(color: Colors.white),
           )
         ],
-      ),
+      )
     );
   }
 }

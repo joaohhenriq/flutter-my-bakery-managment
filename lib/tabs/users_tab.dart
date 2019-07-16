@@ -26,6 +26,7 @@ class UsersTab extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.3),
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              margin: EdgeInsets.only(bottom: 10.0),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: TextField(
                 style: TextStyle(color: Colors.white),
