@@ -72,6 +72,24 @@ class UserBloc extends BlocBase {
     });
   }
 
+  void onChangedSearch(String search){
+    if(search.trim().isEmpty){
+      _usersController.add(_users.values.toList());
+    } else {
+      _usersController.add(_filter(search.trim()));
+    }
+  }
+
+  List<Map<String, dynamic>> _filter(String search){
+    List<Map<String, dynamic>> filteredUsers = List.from(_users.values.toList());
+
+    filteredUsers.retainWhere((user){
+      return user["name"].toUpperCase().contains(search.toUpperCase());
+    });
+
+    return filteredUsers;
+  }
+
   void _unsubscribeToOrders(String uid){
     _users[uid]["subscription"].cancel();
   }

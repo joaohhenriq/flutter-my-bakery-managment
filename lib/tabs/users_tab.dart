@@ -23,7 +23,7 @@ class UsersTab extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.5),
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
         child: Column(
           children: <Widget>[
             Container(
@@ -45,6 +45,7 @@ class UsersTab extends StatelessWidget {
                       color: Colors.white,
                     ),
                     border: InputBorder.none),
+                onChanged: _userBloc.onChangedSearch,
               ),
             ),
             Expanded(
@@ -58,11 +59,13 @@ class UsersTab extends StatelessWidget {
                         ),
                       );
                     } else if (snapshot.data.length == 0) {
-                      return Center(
-                          child: Text(
-                        "Nenhum usuário encontrado!",
-                        style: TextStyle(color: Colors.blue),
-                      ));
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Nenhum usuário encontrado!",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
                     } else
                       return ListView.separated(
                           itemBuilder: (context, index) {
