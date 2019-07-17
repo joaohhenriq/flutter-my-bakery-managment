@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/blocs/user_bloc.dart';
 import 'package:my_bakery_managment/tabs/orders_tab.dart';
 import 'package:my_bakery_managment/tabs/products_tab.dart';
 import 'package:my_bakery_managment/tabs/users_tab.dart';
@@ -12,22 +14,25 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController;
   int _page = 0;
 
+  UserBloc _userBloc;
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+
+    _userBloc = UserBloc();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.black87,
       bottomNavigationBar: Theme(
@@ -54,18 +59,23 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (page) {
-            setState(() {
-              _page = page;
-            });
-          },
-          children: <Widget>[
-            UsersTab(),
-            OrdersTab(),
-            ProductsTab()
+        child: BlocProvider(
+          blocs: [
+            Bloc((i) => _userBloc)
           ],
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (page) {
+              setState(() {
+                _page = page;
+              });
+            },
+            children: <Widget>[
+              UsersTab(),
+              OrdersTab(),
+              ProductsTab()
+            ],
+          ),
         ),
       ),
     );

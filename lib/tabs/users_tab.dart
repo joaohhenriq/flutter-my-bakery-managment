@@ -1,9 +1,13 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/blocs/user_bloc.dart';
 import 'package:my_bakery_managment/widgets/user_tile.dart';
 
 class UsersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _userBloc = BlocProvider.getBloc<UserBloc>();
+
     Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -31,7 +35,10 @@ class UsersTab extends StatelessWidget {
               child: TextField(
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                    hintStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17.0),
+                    hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17.0),
                     hintText: "Search",
                     icon: Icon(
                       Icons.search,
@@ -41,14 +48,31 @@ class UsersTab extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return UserTile();
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  },
-                  itemCount: 8),
+              child: StreamBuilder<List>(
+                  stream: _userBloc.outUsers,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.white),
+                        ),
+                      );
+                    } else if (snapshot.data.length == 0) {
+                      return Center(
+                          child: Text(
+                        "Nenhum usuário encontrado!",
+                        style: TextStyle(color: Colors.blue),
+                      ));
+                    } else
+                      return ListView.separated(
+                          itemBuilder: (context, index) {
+                            return UserTile(snapshot.data[index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider();
+                          },
+                          itemCount: snapshot.data.length);
+                  }),
             )
           ],
         ),
