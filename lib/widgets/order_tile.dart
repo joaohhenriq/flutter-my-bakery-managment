@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'order_header.dart';
+
 class OrderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class OrderTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  OrderHeader(),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -51,12 +54,12 @@ class OrderTile extends StatelessWidget {
                       FlatButton(
                         onPressed: (){},
                         textColor: Colors.grey[850],
-                        child: Text("Delete"),
+                        child: Text("Regress"),
                       ),
                       FlatButton(
                         onPressed: (){},
                         textColor: Colors.green,
-                        child: Text("Delete"),
+                        child: Text("Progress"),
                       )
                     ],
                   )
