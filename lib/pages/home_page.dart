@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/blocs/orders_bloc.dart';
 import 'package:my_bakery_managment/blocs/user_bloc.dart';
 import 'package:my_bakery_managment/tabs/orders_tab.dart';
 import 'package:my_bakery_managment/tabs/products_tab.dart';
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   int _page = 0;
 
   UserBloc _userBloc;
+  OrdersBloc _ordersBloc;
 
   @override
   void initState() {
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController();
 
     _userBloc = UserBloc();
+    _ordersBloc = OrdersBloc();
   }
 
   @override
@@ -62,7 +65,8 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: BlocProvider(
           blocs: [
-            Bloc((i) => _userBloc)
+            Bloc((i) => _userBloc),
+            Bloc((i) => _ordersBloc),
           ],
           child: PageView(
             controller: _pageController,
