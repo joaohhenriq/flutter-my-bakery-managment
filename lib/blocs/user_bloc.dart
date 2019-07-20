@@ -90,6 +90,10 @@ class UserBloc extends BlocBase {
     return filteredUsers;
   }
 
+  Map<String, dynamic> getUser(String uid){
+    return _users[uid];
+  }
+
   void _unsubscribeToOrders(String uid){
     _users[uid]["subscription"].cancel();
   }
