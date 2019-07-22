@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:my_bakery_managment/blocs/orders_bloc.dart';
 import 'package:my_bakery_managment/blocs/user_bloc.dart';
 import 'package:my_bakery_managment/tabs/orders_tab.dart';
@@ -83,6 +84,41 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      floatingActionButton: _buildFloating(),
     );
+  }
+
+  Widget _buildFloating(){
+    switch(_page){
+      case 0:
+        return null;
+      case 1:
+        return SpeedDial(
+          child: Icon(Icons.sort),
+          backgroundColor: Colors.grey[900],
+          overlayOpacity: 0.4,
+          overlayColor: Colors.black,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.arrow_downward, color: Colors.black87,),
+              backgroundColor: Colors.white,
+              label: "Delivered down",
+              labelStyle: TextStyle(fontSize: 14),
+              onTap: (){
+                _ordersBloc.setOrderCriteria(SortCriteria.READY_LAST);
+              }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.arrow_upward, color: Colors.black87,),
+                backgroundColor: Colors.white,
+                label: "Delivered up",
+                labelStyle: TextStyle(fontSize: 14),
+                onTap: (){
+                  _ordersBloc.setOrderCriteria(SortCriteria.READY_FIRST);
+                }
+            )
+          ],
+        );
+    }
   }
 }
