@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_bakery_managment/pages/product_page.dart';
 
 class CategoryTile extends StatelessWidget {
-
   final DocumentSnapshot snapshot;
 
   const CategoryTile({Key key, this.snapshot}) : super(key: key);
@@ -18,39 +18,48 @@ class CategoryTile extends StatelessWidget {
           ),
           title: Text(
             snapshot.data["title"],
-            style: TextStyle(color: Colors.grey[850], fontWeight: FontWeight.w500),
+            style:
+                TextStyle(color: Colors.grey[850], fontWeight: FontWeight.w500),
           ),
           children: <Widget>[
             FutureBuilder<QuerySnapshot>(
               future: snapshot.reference.collection("items").getDocuments(),
-              builder: (context, snapshot){
-                if(!snapshot.hasData) return Container();
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return Container();
                 return Column(
-                  children: snapshot.data.documents.map((doc){
+                  children: snapshot.data.documents.map((doc) {
                     return ListTile(
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(doc.data["images"][0]),
                       ),
                       title: Text(doc.data["title"]),
-                      trailing: Text(
-                        "R\$ ${doc.data["price"].toStringAsFixed(2)}"
-                      ),
-                      onTap: (){
-
+                      trailing:
+                          Text("R\$ ${doc.data["price"].toStringAsFixed(2)}"),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ProductPage(
+                                  categoryId: this.snapshot.documentID,
+                                  product: doc,
+                                )));
                       },
                     );
-                  }).toList()..add(
-                    ListTile(
+                  }).toList()
+                    ..add(ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        child: Icon(Icons.add, color: Colors.blue,),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.blue,
+                        ),
                       ),
                       title: Text("Adicionar"),
-                      onTap: (){
-
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ProductPage(
+                                  categoryId: this.snapshot.documentID,
+                                )));
                       },
-                    )
-                  ),
+                    )),
                 );
               },
             )
