@@ -16,30 +16,34 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.black87,
       appBar: AppBar(
-        elevation: 0.0,
-        title: Text("Criar produto"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.remove),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: () {},
-          )
-        ],
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: <Widget>[
-            
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: const Text("New product"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.remove,
+              ),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.save,
+              ),
+              onPressed: () {},
+            )
           ],
         ),
-      ),
+        body: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.all(16),
+            children: <Widget>[],
+          ),
+        ),
+
     );
   }
 }

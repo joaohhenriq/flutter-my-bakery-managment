@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white
+        primaryColor: Colors.white,
+        primaryColorBrightness: Brightness.light
       ),
       title: 'My Bakery Managment',
       home: LoginPage(),
