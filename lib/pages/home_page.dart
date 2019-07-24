@@ -94,8 +94,8 @@ class _HomePageState extends State<HomePage> {
         return null;
       case 1:
         return SpeedDial(
-          child: Icon(Icons.sort),
-          backgroundColor: Colors.grey[900],
+          child: Icon(Icons.sort, color: Colors.black87,),
+          backgroundColor: Colors.white,
           overlayOpacity: 0.4,
           overlayColor: Colors.black,
           children: [
