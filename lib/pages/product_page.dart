@@ -21,13 +21,12 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final _fieldStyle = TextStyle(
-      color: Colors.black87,
-      fontSize: 16.0
+        color: Colors.black87,
+        fontSize: 16.0
     );
 
-    InputDecoration _buildDecoration(String label){
+    InputDecoration _buildDecoration(String label) {
       return InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Colors.grey[700]),
@@ -41,9 +40,9 @@ class _ProductPageState extends State<ProductPage> {
           padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: AssetImage("assets/images/login_background.jpg"),
-            fit: BoxFit.cover,
-          )),
+                image: AssetImage("assets/images/login_background.jpg"),
+                fit: BoxFit.cover,
+              )),
           child: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -58,25 +57,24 @@ class _ProductPageState extends State<ProductPage> {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
                         SizedBox(width: 10.0,),
-                        Text("New product", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
+                        Text("New product", style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w600),),
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.remove),
-                          onPressed: (){
-                          },
+                          onPressed: () {},
                         ),
                         IconButton(
                           icon: Icon(Icons.save),
-                          onPressed: (){
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     )
@@ -86,50 +84,55 @@ class _ProductPageState extends State<ProductPage> {
                   child: Form(
                     key: _formKey,
                     child: StreamBuilder<Map>(
-                      stream: _productBloc.outData,
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData) return Container();
-                        return ListView(
-                          padding: EdgeInsets.all(16),
-                          children: <Widget>[
-                            TextFormField(
-                              initialValue: snapshot.data["title"],
-                              style: _fieldStyle,
-                              decoration: _buildDecoration("Title"),
-                              onSaved: (t){
+                        stream: _productBloc.outData,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) return Container();
+                          return ListView(
+                            padding: EdgeInsets.all(16),
+                            children: <Widget>[
+                              Text("Images", style: TextStyle(
+                                  color: Colors.grey[700], fontSize: 12),),
+                              ImagesWidget(),
+                              TextFormField(
+                                initialValue: snapshot.data["title"],
+                                style: _fieldStyle,
+                                decoration: _buildDecoration("Title"),
+                                onSaved: (t) {
 
-                              },
-                              validator: (t){
+                                },
+                                validator: (t) {
 
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: snapshot.data["description"],
-                              style: _fieldStyle,
-                              maxLines: 6,
-                              decoration: _buildDecoration("Description"),
-                              onSaved: (t){
+                                },
+                              ),
+                              TextFormField(
+                                initialValue: snapshot.data["description"],
+                                style: _fieldStyle,
+                                maxLines: 6,
+                                decoration: _buildDecoration("Description"),
+                                onSaved: (t) {
 
-                              },
-                              validator: (t){
+                                },
+                                validator: (t) {
 
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: snapshot.data["price"]?.toStringAsFixed(2),
-                              style: _fieldStyle,
-                              decoration: _buildDecoration("Price"),
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              onSaved: (t){
+                                },
+                              ),
+                              TextFormField(
+                                initialValue: snapshot.data["price"]
+                                    ?.toStringAsFixed(2),
+                                style: _fieldStyle,
+                                decoration: _buildDecoration("Price"),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                onSaved: (t) {
 
-                              },
-                              validator: (t){
+                                },
+                                validator: (t) {
 
-                              },
-                            ),
-                          ],
-                        );
-                      }
+                                },
+                              ),
+                            ],
+                          );
+                        }
                     ),
                   ),
                 ),
