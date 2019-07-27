@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'iamges_source_sheet.dart';
+
 class ImagesWidget extends FormField<List> {
   ImagesWidget({
+    BuildContext context,
     FormFieldSetter<List> onSaved,
     FormFieldValidator<List> validator,
     List initialValue,
@@ -23,14 +26,20 @@ class ImagesWidget extends FormField<List> {
                         return Container(
                           height: 100,
                           width: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(5.0))
+                          ),
                           margin: EdgeInsets.only(right: 8),
-                          child: GestureDetector(
-                            child: i is String
-                                ? Image.network(i, fit: BoxFit.cover)
-                                : Image.file(i, fit: BoxFit.cover),
-                            onLongPress: () {
-                              state.didChange(state.value..remove(i));
-                            },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            child: GestureDetector(
+                              child: i is String
+                                  ? Image.network(i, fit: BoxFit.cover)
+                                  : Image.file(i, fit: BoxFit.cover),
+                              onLongPress: () {
+                                state.didChange(state.value..remove(i));
+                              },
+                            ),
                           ),
                         );
                       }).toList()
@@ -38,13 +47,25 @@ class ImagesWidget extends FormField<List> {
                           child: Container(
                             height: 100,
                             width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.6),
+                                borderRadius: BorderRadius.all(Radius.circular(5.0))
+                            ),
                             child: Icon(
                               Icons.camera_enhance,
                               color: Colors.white,
                             ),
-                            color: Colors.white.withAlpha(50),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => ImageSourceSheet(
+                                  onImageSelected: (image){
+                                    state.didChange(state.value..add(image));
+                                    Navigator.of(context).pop();
+                                  },
+                                ));
+                          },
                         )),
                     ),
                   ),

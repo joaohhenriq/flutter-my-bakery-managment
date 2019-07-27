@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bakery_managment/blocs/product_bloc.dart';
+import 'package:my_bakery_managment/widgets/images_widget.dart';
 
 class ProductPage extends StatefulWidget {
   final String categoryId;
@@ -92,7 +93,12 @@ class _ProductPageState extends State<ProductPage> {
                             children: <Widget>[
                               Text("Images", style: TextStyle(
                                   color: Colors.grey[700], fontSize: 12),),
-                              ImagesWidget(),
+                              ImagesWidget(
+                                context: context,
+                                initialValue: snapshot.data["images"],
+                                onSaved: (l){},
+                                validator: (l){},
+                              ),
                               TextFormField(
                                 initialValue: snapshot.data["title"],
                                 style: _fieldStyle,

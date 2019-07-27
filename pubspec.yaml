@@ -27,7 +27,7 @@ dependencies:
   cloud_firestore:
   firebase_storage:
   image_picker:
-  image_cropper:
+  image_cropper: ^1.0.2
   flutter_speed_dial:
   rxdart:
   bloc_pattern:
