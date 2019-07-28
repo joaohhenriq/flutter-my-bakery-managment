@@ -18,7 +18,7 @@ class ProductSizes extends FormField<List> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       mainAxisSpacing: 8,
-                      childAspectRatio: 0.5),
+                      childAspectRatio: 0.4),
                   children: state.value.map((s) {
                     return GestureDetector(
                       onLongPress: () {
@@ -26,12 +26,13 @@ class ProductSizes extends FormField<List> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                          color: Colors.grey[500],
                             borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.blue, width: 3)),
+                            border: Border.all(color: Colors.grey[700], width: 1)),
                         alignment: Alignment.center,
                         child: Text(
                           s,
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     );
@@ -40,12 +41,13 @@ class ProductSizes extends FormField<List> {
                       onTap: () {},
                       child: Container(
                         decoration: BoxDecoration(
+                            color: Colors.grey[500],
                             borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.blue, width: 3)),
+                            border: Border.all(color: Colors.grey[700], width: 1)),
                         alignment: Alignment.center,
                         child: Text(
                           "+",
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     )),
