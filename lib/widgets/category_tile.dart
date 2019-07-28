@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bakery_managment/pages/product_page.dart';
 
+import 'edit_category_dialog.dart';
+
 class CategoryTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
@@ -13,8 +15,15 @@ class CategoryTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       child: Card(
         child: ExpansionTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(snapshot.data["icon"]),
+          leading: GestureDetector(
+            onTap: (){
+              showDialog(
+                  context: context,
+                  builder: (context) => EditCategoryDialog());
+            },
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(snapshot.data["icon"]),
+            ),
           ),
           title: Text(
             snapshot.data["title"],
