@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'add_size_dialog.dart';
+
 class ProductSizes extends FormField<List> {
   ProductSizes({
+    BuildContext context,
     List initialValue,
     FormFieldSetter<List> onSaved,
     FormFieldValidator<List> validator,
@@ -26,9 +29,10 @@ class ProductSizes extends FormField<List> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[500],
+                            color: Colors.grey[500].withOpacity(0.7),
                             borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.grey[700], width: 1)),
+                            border:
+                                Border.all(color: Colors.grey[700], width: 1)),
                         alignment: Alignment.center,
                         child: Text(
                           s,
@@ -38,12 +42,23 @@ class ProductSizes extends FormField<List> {
                     );
                   }).toList()
                     ..add(GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        String size = await showDialog(
+                            context: context,
+                            builder: (context) => AddSizeDialog());
+                        if (size != null) {
+                          state.didChange(state.value..add(size));
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[500],
+                            color: Colors.grey[500].withOpacity(0.7),
                             borderRadius: BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(color: Colors.grey[700], width: 1)),
+                            border: Border.all(
+                                color: state.hasError
+                                    ? Colors.red
+                                    : Colors.grey[700],
+                                width: 1)),
                         alignment: Alignment.center,
                         child: Text(
                           "+",
