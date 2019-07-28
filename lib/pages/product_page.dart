@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_bakery_managment/blocs/product_bloc.dart';
 import 'package:my_bakery_managment/validators/product_validator.dart';
 import 'package:my_bakery_managment/widgets/images_widget.dart';
+import 'package:my_bakery_managment/widgets/product_sizes.dart';
 
 class ProductPage extends StatefulWidget {
   final String categoryId;
@@ -24,16 +25,12 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
 
   @override
   Widget build(BuildContext context) {
-    final _fieldStyle = TextStyle(
-        color: Colors.black87,
-        fontSize: 16.0
-    );
+    final _fieldStyle = TextStyle(color: Colors.black87, fontSize: 16.0);
 
     InputDecoration _buildDecoration(String label) {
       return InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Colors.grey[700]),
-
       );
     }
 
@@ -44,9 +41,9 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
           padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/login_background.jpg"),
-                fit: BoxFit.cover,
-              )),
+            image: AssetImage("assets/images/login_background.jpg"),
+            fit: BoxFit.cover,
+          )),
           child: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -68,18 +65,22 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                               Navigator.pop(context);
                             },
                           ),
-                          SizedBox(width: 10.0,),
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           StreamBuilder<bool>(
                               stream: _productBloc.outCreated,
                               initialData: false,
                               builder: (context, snapshot) {
-                                return Text(snapshot.data
-                                    ? "Edit product"
-                                    : "New product", style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600),);
-                              }
-                          ),
+                                return Text(
+                                  snapshot.data
+                                      ? "Edit product"
+                                      : "New product",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600),
+                                );
+                              }),
                         ],
                       ),
                       Row(
@@ -97,13 +98,11 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                                           icon: Icon(Icons.remove),
                                           onPressed: snapshot.data
                                               ? null
-                                              : (){
-                                            _productBloc.deleteProduct();
-                                            Navigator.of(context).pop();
-                                          }
-                                      );
-                                    }
-                                );
+                                              : () {
+                                                  _productBloc.deleteProduct();
+                                                  Navigator.of(context).pop();
+                                                });
+                                    });
                               } else {
                                 return Container();
                               }
@@ -115,12 +114,9 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                               builder: (context, snapshot) {
                                 return IconButton(
                                     icon: Icon(Icons.save),
-                                    onPressed: snapshot.data
-                                        ? null
-                                        : saveProduct
-                                );
-                              }
-                          ),
+                                    onPressed:
+                                        snapshot.data ? null : saveProduct);
+                              }),
                         ],
                       )
                     ],
@@ -138,8 +134,11 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                               return ListView(
                                 padding: EdgeInsets.all(16),
                                 children: <Widget>[
-                                  Text("Images", style: TextStyle(
-                                      color: Colors.grey[700], fontSize: 12),),
+                                  Text(
+                                    "Images",
+                                    style: TextStyle(
+                                        color: Colors.grey[700], fontSize: 12),
+                                  ),
                                   ImagesWidget(
                                     context: context,
                                     initialValue: snapshot.data["images"],
@@ -166,16 +165,30 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                                         ?.toStringAsFixed(2),
                                     style: _fieldStyle,
                                     decoration: _buildDecoration("Price"),
-                                    keyboardType: TextInputType
-                                        .numberWithOptions(
-                                        decimal: true),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                     onSaved: _productBloc.savePrice,
                                     validator: validatePrice,
                                   ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Text(
+                                    "Sizes",
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  ProductSizes(
+                                    initialValue: snapshot.data["sizes"],
+                                    onSaved: (s){},
+                                    validator: (s){},
+                                  )
                                 ],
                               );
-                            }
-                        ),
+                            }),
                       ),
                       StreamBuilder<bool>(
                           stream: _productBloc.outLoading,
@@ -185,16 +198,13 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                                 ignoring: !snapshot.data,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: snapshot.data ? Colors.white
-                                          .withOpacity(0.7) : Colors
-                                          .transparent,
+                                      color: snapshot.data
+                                          ? Colors.white.withOpacity(0.7)
+                                          : Colors.transparent,
                                       borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))
-                                  ),
-                                )
-                            );
-                          }
-                      ),
+                                          Radius.circular(10.0))),
+                                ));
+                          }),
                     ],
                   ),
                 ),
@@ -211,27 +221,26 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
       //quando fizer isso, chama o onSaved de cada um dos campos abaixo
       _formKey.currentState.save();
 
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(
-              "Saving product...", style: TextStyle(color: Colors.white),),
-            duration: Duration(minutes: 1),
-            backgroundColor: Colors.blue,
-          )
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          "Saving product...",
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(minutes: 1),
+        backgroundColor: Colors.blue,
+      ));
 
       bool success = await _productBloc.saveProduct();
 
       _scaffoldKey.currentState.removeCurrentSnackBar();
 
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(
-              success ? "Product saved!" : "Error: product could not be saved!",
-              style: TextStyle(color: Colors.white),),
-            backgroundColor: success ? Colors.blue : Colors.red,
-          )
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          success ? "Product saved!" : "Error: product could not be saved!",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: success ? Colors.blue : Colors.red,
+      ));
     }
   }
 }
