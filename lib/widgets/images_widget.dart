@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'iamges_source_sheet.dart';
+import 'images_source_sheet.dart';
 
 class ImagesWidget extends FormField<List> {
   ImagesWidget({
@@ -16,6 +16,7 @@ class ImagesWidget extends FormField<List> {
             autovalidate: autoValidate,
             builder: (state) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     height: 124,
