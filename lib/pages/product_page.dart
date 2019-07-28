@@ -69,25 +69,57 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                             },
                           ),
                           SizedBox(width: 10.0,),
-                          Text("New product", style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),),
+                          StreamBuilder<bool>(
+                              stream: _productBloc.outCreated,
+                              initialData: false,
+                              builder: (context, snapshot) {
+                                return Text(snapshot.data
+                                    ? "Edit product"
+                                    : "New product", style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600),);
+                              }
+                          ),
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.remove),
-                            onPressed: () {},
-                          ),
                           StreamBuilder<bool>(
-                            stream: _productBloc.outLoading,
+                            stream: _productBloc.outCreated,
                             initialData: false,
                             builder: (context, snapshot) {
-                              return IconButton(
-                                icon: Icon(Icons.save),
-                                onPressed: snapshot.data ? null : saveProduct
-                              );
-                            }
+                              if (snapshot.data) {
+                                return StreamBuilder<bool>(
+                                    stream: _productBloc.outLoading,
+                                    initialData: false,
+                                    builder: (context, snapshot) {
+                                      return IconButton(
+                                          icon: Icon(Icons.remove),
+                                          onPressed: snapshot.data
+                                              ? null
+                                              : (){
+                                            _productBloc.deleteProduct();
+                                            Navigator.of(context).pop();
+                                          }
+                                      );
+                                    }
+                                );
+                              } else {
+                                return Container();
+                              }
+                            },
+                          ),
+                          StreamBuilder<bool>(
+                              stream: _productBloc.outLoading,
+                              initialData: false,
+                              builder: (context, snapshot) {
+                                return IconButton(
+                                    icon: Icon(Icons.save),
+                                    onPressed: snapshot.data
+                                        ? null
+                                        : saveProduct
+                                );
+                              }
                           ),
                         ],
                       )
@@ -134,7 +166,8 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                                         ?.toStringAsFixed(2),
                                     style: _fieldStyle,
                                     decoration: _buildDecoration("Price"),
-                                    keyboardType: TextInputType.numberWithOptions(
+                                    keyboardType: TextInputType
+                                        .numberWithOptions(
                                         decimal: true),
                                     onSaved: _productBloc.savePrice,
                                     validator: validatePrice,
@@ -152,8 +185,11 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
                                 ignoring: !snapshot.data,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                  color: snapshot.data ? Colors.white.withOpacity(0.7) : Colors.transparent,
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                      color: snapshot.data ? Colors.white
+                                          .withOpacity(0.7) : Colors
+                                          .transparent,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))
                                   ),
                                 )
                             );
@@ -170,17 +206,18 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
     );
   }
 
-  void saveProduct() async{
-    if(_formKey.currentState.validate()) {
+  void saveProduct() async {
+    if (_formKey.currentState.validate()) {
       //quando fizer isso, chama o onSaved de cada um dos campos abaixo
       _formKey.currentState.save();
 
       _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text("Saving product...", style: TextStyle(color: Colors.white),),
-          duration: Duration(minutes: 1),
-          backgroundColor: Colors.blue,
-        )
+          SnackBar(
+            content: Text(
+              "Saving product...", style: TextStyle(color: Colors.white),),
+            duration: Duration(minutes: 1),
+            backgroundColor: Colors.blue,
+          )
       );
 
       bool success = await _productBloc.saveProduct();
@@ -189,7 +226,9 @@ class _ProductPageState extends State<ProductPage> with ProductValidator {
 
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(
-            content: Text(success ? "Product saved!" : "Error: product could not be saved!", style: TextStyle(color: Colors.white),),
+            content: Text(
+              success ? "Product saved!" : "Error: product could not be saved!",
+              style: TextStyle(color: Colors.white),),
             backgroundColor: success ? Colors.blue : Colors.red,
           )
       );
