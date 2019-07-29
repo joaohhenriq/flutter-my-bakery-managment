@@ -4,16 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_bakery_managment/blocs/category_bloc.dart';
 
-class EditCategoryDialog extends StatefulWidget {
+import 'images_source_sheet.dart';
 
+class EditCategoryDialog extends StatefulWidget {
   final DocumentSnapshot category;
 
   EditCategoryDialog({this.category});
 
   @override
-  _EditCategoryDialogState createState() => _EditCategoryDialogState(
-    category: category
-  );
+  _EditCategoryDialogState createState() =>
+      _EditCategoryDialogState(category: category);
 }
 
 class _EditCategoryDialogState extends State<EditCategoryDialog> {
@@ -35,6 +35,16 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
           children: <Widget>[
             ListTile(
               leading: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) => ImageSourceSheet(
+                            onImageSelected: (image) {
+                              Navigator.of(context).pop();
+                              _categoryBloc.setImage(image);
+                            },
+                          ));
+                },
                 child: StreamBuilder(
                     stream: _categoryBloc.outImage,
                     builder: (context, snapshot) {
@@ -50,9 +60,16 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
                       }
                     }),
               ),
-              title: TextField(
-                controller: _controller,
-              ),
+              title: StreamBuilder<String>(
+                  stream: _categoryBloc.outTitle,
+                  builder: (context, snapshot) {
+                    return TextField(
+                      controller: _controller,
+                      onChanged: _categoryBloc.setTitle,
+                      decoration: InputDecoration(
+                          errorText: snapshot.hasError ? snapshot.error : null),
+                    );
+                  }),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,10 +84,14 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
                         onPressed: snapshot.data ? () {} : null,
                       );
                     }),
-                FlatButton(
-                  child: Text("Save"),
-                  onPressed: () {},
-                )
+                StreamBuilder<bool>(
+                    stream: _categoryBloc.submitValid,
+                    builder: (context, snapshot) {
+                      return FlatButton(
+                        child: Text("Save"),
+                        onPressed: snapshot.hasData ? () {} : null,
+                      );
+                    })
               ],
             )
           ],
@@ -79,4 +100,3 @@ class _EditCategoryDialogState extends State<EditCategoryDialog> {
     );
   }
 }
-

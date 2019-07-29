@@ -63,7 +63,7 @@ class CategoryTile extends StatelessWidget {
                           color: Colors.blue,
                         ),
                       ),
-                      title: Text("Adicionar"),
+                      title: Text("Add"),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ProductPage(
