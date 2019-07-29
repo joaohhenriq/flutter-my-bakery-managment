@@ -19,7 +19,9 @@ class CategoryTile extends StatelessWidget {
             onTap: (){
               showDialog(
                   context: context,
-                  builder: (context) => EditCategoryDialog());
+                  builder: (context) => EditCategoryDialog(
+                    category: snapshot,
+                  ));
             },
             child: CircleAvatar(
               backgroundImage: NetworkImage(snapshot.data["icon"]),
